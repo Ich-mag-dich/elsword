@@ -212,6 +212,7 @@
             class="input-number"
             placeholder="0"
           />
+          <p>(100%메달 -> 100)</p>
           <br />
           <hr />
           <label for="targetLevel">온천 / 하우스: </label>
@@ -260,7 +261,7 @@
             type="number"
             id="els_pass"
             name="els_pass"
-            min="1"
+            min="0"
             style="display: inline-block"
             class="input-number"
             placeholder="0"
@@ -457,13 +458,13 @@
           document.getElementById("ed_per_game").innerText = (
             (defaultEd *
               ((100 + stat_ed_rate + guild_skill - 5) *
-                ((pc + drop_burning + 110) / 100))) /
+                ((pc + drop_burning + 100) / 100))) /
             100
           ).toLocaleString();
           document.getElementById("ed_per_time").innerText = (
             ((defaultEd *
               ((100 + stat_ed_rate + guild_skill - 5) *
-                ((pc + drop_burning + 110) / 100))) /
+                ((pc + drop_burning + 100) / 100))) /
               100) *
             Math.floor(1800 / clearTime)
           ).toLocaleString();
@@ -484,10 +485,12 @@
           document.getElementById("total_ed").innerText = (
             ((defaultEd *
               ((100 + stat_ed_rate + guild_skill - 5) *
-                ((pc + drop_burning + 110) / 100))) /
+                ((pc + drop_burning + 100) / 100))) /
               100) *
             Math.floor(requiredExp / result)
           ).toLocaleString();
+
+          window.scrollTo({ top: 0, behavior: "smooth" });
         });
     </script>
   </body>
