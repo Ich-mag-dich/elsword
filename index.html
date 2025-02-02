@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>경험치 계산기</title>
+    <script src=""></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      label,
+      input {
+        margin: 10px 0;
+      }
+      button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: large;
+        font-weight: bold;
+        background-color: black;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      .input-number {
+        width: 100px;
+        height: 40px;
+        font-size: large;
+        font-weight: bold;
+        text-align: center;
+      }
+      label {
+        font-size: large;
+        font-weight: bold;
+        margin-right: 5px;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="display: flex">
+      <div
+        class="container"
+        style="
+          width: 600px;
+          border: solid;
+          border-width: 3px;
+          border-color: black;
+          padding: 30px;
+        "
+      >
+        <h1>공명도 계산기</h1>
+        <form id="expCalculator">
+          <label for="startLevel"> 시작 레벨: </label>
+          <input
+            type="number"
+            id="startLevel"
+            name="startLevel"
+            min="1"
+            style="display: inline-block"
+            class="input-number"
+            placeholder="0"
+            required
+          />
+          <br />
+          <label for="targetLevel">목표 레벨: </label>
+          <input
+            type="number"
+            id="targetLevel"
+            name="targetLevel"
+            min="1"
+            style="display: inline-block"
+            class="input-number"
+            placeholder="0"
+            required
+          />
+          <br />
+          <hr />
+          <div style="display: flex">
+            <label> PC방 </label>
+            <div
+              style="display: inline-block; margin-left: 30px; margin-top: 3px"
+            >
+              <label>O</label>
+              <input type="radio" name="pc" value="100" checked />
+              <br />
+              <label>X</label>
+              <input type="radio" name="pc" value="0" />
+            </div>
+          </div>
+          <br />
+          <hr />
+          <div style="display: flex">
+            <label for="targetLevel">
+              <p>
+                스탯창 표기<br />
+                경험치 획득량 증가
+              </p>
+            </label>
+            <input
+              type="number"
+              id="exp_rate"
+              name="exp_rate"
+              min="1"
+              style="display: inline-block; margin-left: 20px; margin-top: 30px"
+              class="input-number"
+              placeholder="0"
+              required
+            />
+          </div>
+          <br />
+          <hr />
+          <div style="display: flex">
+            <label> 길드 스킬 </label>
+            <div
+              style="display: inline-block; margin-left: 30px; margin-top: 3px"
+            >
+              <label>O</label>
+              <input type="radio" name="guild_skill" value="15" checked />
+              <br />
+              <label>X</label>
+              <input type="radio" name="guild_skill" value="0" />
+            </div>
+          </div>
+          <br />
+          <hr />
+          <div style="display: flex">
+            <label> 길드 휘장 가호 </label>
+            <div
+              style="display: inline-block; margin-left: 30px; margin-top: 3px"
+            >
+              <label>O</label>
+              <input type="radio" name="guild_banner" value="10" checked />
+              <br />
+              <label>X</label>
+              <input type="radio" name="guild_banner" value="0" />
+            </div>
+          </div>
+          <br />
+          <hr />
+          <div style="display: flex">
+            <label> 수련 버프 </label>
+            <div
+              style="display: inline-block; margin-left: 30px; margin-top: 3px"
+            >
+              <label>O</label>
+              <input type="radio" name="guild_trainig" value="50" checked />
+              <br />
+              <label>X</label>
+              <input type="radio" name="guild_trainig" value="0" />
+            </div>
+          </div>
+          <br />
+          <hr />
+          <label for="targetLevel">경험치 메달 </label>
+          <input
+            type="number"
+            id="exp_medal"
+            name="exp_medal"
+            min="1"
+            style="display: inline-block"
+            class="input-number"
+            placeholder="0"
+          />
+          <br />
+          <hr />
+          <label for="targetLevel">온천 / 하우스 </label>
+          <input
+            type="number"
+            id="exp_house"
+            name="exp_house"
+            min="1"
+            style="display: inline-block"
+            class="input-number"
+            placeholder="0"
+          />
+          <p>(온천 -> 30, 하우스 -> 50)</p>
+          <br />
+          <hr />
+          <label for="targetLevel">경험치 배탐 </label>
+          <input
+            type="number"
+            id="exp_burning"
+            name="exp_burning"
+            min="1"
+            style="display: inline-block"
+            class="input-number"
+            placeholder="0"
+          />
+          <p>(2배탐 -> 100, 3배탐 -> 200)</p>
+          <br />
+          <hr />
+          <label for="targetLevel">드랍 배탐 </label>
+
+          <input
+            type="number"
+            id="drop_burning"
+            name="drop_burning"
+            min="1"
+            style="display: inline-block"
+            class="input-number"
+            placeholder="0"
+          />
+          <p>(2배탐 -> 100, 3배탐 -> 200)</p>
+          <br />
+          <hr />
+          <label for="targetLevel">패스 마크 </label>
+
+          <input
+            type="number"
+            id="els_pass"
+            name="els_pass"
+            min="1"
+            style="display: inline-block"
+            class="input-number"
+            placeholder="0"
+          />
+          <p>(엔패스 50, 엘리오스 패스 10)</p>
+          <br />
+          <hr />
+          <button type="submit">계산하기</button>
+        </form>
+        <div id="result"></div>
+      </div>
+
+      <div
+        class="container"
+        style="
+          width: 600px;
+          border: solid;
+          border-width: 3px;
+          border-color: black;
+          padding: 30px;
+        "
+      ></div>
+    </div>
+    <script>
+      const defaultExp = 13000000; // 13,000,000
+
+      // const getRequiredExp = (level) => {
+      //   return 72500 * Math.exp(0.808 * Math.pow(level, 0.45));
+      // };
+      // console.log(getRequiredExp(998));
+
+      // const getExp = (startLevel, targetLevel) => {
+      //   let exp = 0;
+      //   for (let i = startLevel; i < targetLevel; i++) {
+      //     exp += getRequiredExp(i);
+      //   }
+      //   return exp;
+      // };
+
+      console.log(required_exp_table[998]);
+
+      document
+        .getElementById("expCalculator")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          const startLevel = parseInt(
+            document.getElementById("startLevel").value
+          );
+          const targetLevel = parseInt(
+            document.getElementById("targetLevel").value
+          );
+          let result = "";
+          const stat_exp_rate = parseInt(
+            document.getElementById("exp_rate").value
+          );
+          const guild_skill = parseInt(
+            document.querySelector('input[name="guild_skill"]:checked').value
+          );
+          const guild_banner = parseInt(
+            document.querySelector('input[name="guild_banner"]:checked').value
+          );
+          const pc = parseInt(
+            document.querySelector('input[name="pc"]:checked').value
+          );
+
+          const exp_medal =
+            parseInt(document.getElementById("exp_medal").value) || 0;
+
+          const exp_house =
+            parseInt(document.getElementById("exp_house").value) || 0;
+          const exp_burning =
+            parseInt(document.getElementById("exp_burning").value) || 0;
+          const drop_burning =
+            parseInt(document.getElementById("drop_burning").value) || 0;
+          const els_pass =
+            parseInt(document.getElementById("els_pass").value) || 0;
+          const guild_trainig = parseInt(
+            document.querySelector('input[name="guild_trainig"]:checked').value
+          );
+
+          console.log(
+            stat_exp_rate,
+            guild_skill,
+            guild_banner,
+            pc,
+            exp_medal,
+            exp_house,
+            exp_burning,
+            drop_burning,
+            els_pass,
+            guild_trainig
+          );
+
+          if (startLevel >= targetLevel) {
+            result = "시작 레벨은 목표 레벨보다 낮아야 합니다.";
+          } else {
+            console.log(getExp(startLevel, targetLevel));
+            result =
+              ((defaultExp *
+                (stat_exp_rate + guild_skill + guild_banner + 100)) /
+                100) *
+              ((pc +
+                exp_medal +
+                exp_house +
+                exp_burning +
+                drop_burning +
+                els_pass +
+                guild_trainig +
+                130) /
+                100);
+          }
+
+          document.getElementById("result").innerText = result;
+        });
+    </script>
+  </body>
+</html>
