@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>경험치 계산기</title>
-    <script src="https://raw.githubusercontent.com/Ich-mag-dich/elsword/refs/heads/main/required_exp_table.js"></script>
+    <script src="https://www.ashal.eu/javascript/calcs/erp_exp_list.js"></script>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -57,24 +57,26 @@
       >
         <h1>공명도 계산기</h1>
         <form id="expCalculator">
-          <label for="startLevel"> 시작 레벨: </label>
+          <label for="startLevel"> *시작 레벨: </label>
           <input
             type="number"
             id="startLevel"
             name="startLevel"
             min="1"
+            max="998"
             style="display: inline-block"
             class="input-number"
             placeholder="0"
             required
           />
           <br />
-          <label for="targetLevel">목표 레벨: </label>
+          <label for="targetLevel">*목표 레벨: </label>
           <input
             type="number"
             id="targetLevel"
             name="targetLevel"
-            min="1"
+            min="2"
+            max="999"
             style="display: inline-block"
             class="input-number"
             placeholder="0"
@@ -82,24 +84,25 @@
           />
           <br />
           <hr />
-          <div style="display: flex">
-            <label> PC방 </label>
-            <div
-              style="display: inline-block; margin-left: 30px; margin-top: 3px"
-            >
-              <label>O</label>
-              <input type="radio" name="pc" value="100" checked />
-              <br />
-              <label>X</label>
-              <input type="radio" name="pc" value="0" />
-            </div>
-          </div>
+          <label for="clearTime">*평균 클리어타임: </label>
+          <input
+            type="number"
+            id="clearTime"
+            name="clearTime"
+            min="1"
+            max="999"
+            style="display: inline-block"
+            class="input-number"
+            placeholder="0"
+            required
+          />
           <br />
+          <p>초 단위로 입력 ex) 1분 7초 -> 67</p>
           <hr />
           <div style="display: flex">
             <label for="targetLevel">
               <p>
-                스탯창 표기<br />
+                *스탯창 표기<br />
                 경험치 획득량 증가
               </p>
             </label>
@@ -116,6 +119,41 @@
           </div>
           <br />
           <hr />
+          <div style="display: flex">
+            <label for="targetLevel">
+              <p>
+                *스탯창 표기<br />
+                ED 획득량 증가
+              </p>
+            </label>
+            <input
+              type="number"
+              id="ed_rate"
+              name="ed_rate"
+              min="1"
+              style="display: inline-block; margin-left: 20px; margin-top: 30px"
+              class="input-number"
+              placeholder="0"
+              required
+            />
+          </div>
+          <br />
+          <hr />
+          <div style="display: flex">
+            <label> PC방 </label>
+            <div
+              style="display: inline-block; margin-left: 30px; margin-top: 3px"
+            >
+              <label>O</label>
+              <input type="radio" name="pc" value="100" checked />
+              <br />
+              <label>X</label>
+              <input type="radio" name="pc" value="0" />
+            </div>
+          </div>
+          <br />
+          <hr />
+
           <div style="display: flex">
             <label> 길드 스킬 </label>
             <div
@@ -158,7 +196,7 @@
           </div>
           <br />
           <hr />
-          <label for="targetLevel">경험치 메달 </label>
+          <label for="targetLevel">경험치 메달: </label>
           <input
             type="number"
             id="exp_medal"
@@ -170,7 +208,7 @@
           />
           <br />
           <hr />
-          <label for="targetLevel">온천 / 하우스 </label>
+          <label for="targetLevel">온천 / 하우스: </label>
           <input
             type="number"
             id="exp_house"
@@ -183,7 +221,7 @@
           <p>(온천 -> 30, 하우스 -> 50)</p>
           <br />
           <hr />
-          <label for="targetLevel">경험치 배탐 </label>
+          <label for="targetLevel">경험치 배탐: </label>
           <input
             type="number"
             id="exp_burning"
@@ -196,7 +234,7 @@
           <p>(2배탐 -> 100, 3배탐 -> 200)</p>
           <br />
           <hr />
-          <label for="targetLevel">드랍 배탐 </label>
+          <label for="targetLevel">드랍 배탐: </label>
 
           <input
             type="number"
@@ -210,7 +248,7 @@
           <p>(2배탐 -> 100, 3배탐 -> 200)</p>
           <br />
           <hr />
-          <label for="targetLevel">패스 마크 </label>
+          <label for="targetLevel">패스 마크: </label>
 
           <input
             type="number"
@@ -226,7 +264,6 @@
           <hr />
           <button type="submit">계산하기</button>
         </form>
-        <div id="result"></div>
       </div>
 
       <div
@@ -237,26 +274,92 @@
           border-width: 3px;
           border-color: black;
           padding: 30px;
+          font-size: large;
         "
-      ></div>
+      >
+        <div style="display: ruby">
+          <p>목표 달성까지 필요한 경험치</p>
+          <p id="requied_exp" style="font-weight: bold">0</p>
+        </div>
+        <br />
+        <hr />
+        <div style="display: ruby">
+          <p>1판당 획득하는 경험치</p>
+          <p id="exp_per_game" style="font-weight: bold">0</p>
+        </div>
+        <br />
+        <hr />
+        <div style="display: ruby">
+          <p>1판당</p>
+          <p id="ed_per_game" style="font-weight: bold">0</p>
+          <p style="font-weight: bold">ED 획득</p>
+        </div>
+        <br />
+        <hr />
+        <div style="display: ruby">
+          <p>목표 달성까지 필요한 판 수</p>
+          <p id="requied_game_count" style="font-weight: bold">0</p>
+        </div>
+        <br />
+        <hr />
+        <div style="display: ruby">
+          <p>1탐당</p>
+          <p id="gameCount" style="font-weight: bold">0</p>
+          <p style="font-weight: bold">판</p>
+        </div>
+        <br />
+        <hr />
+        <div style="display: ruby">
+          <p>1탐당</p>
+          <p id="ed_per_time" style="font-weight: bold">0</p>
+          <p style="font-weight: bold">ED</p>
+        </div>
+        <br />
+        <hr />
+        <div style="display: ruby">
+          <p>목표 달성까지 필요한 탐 수</p>
+          <p id="requied_game_time" style="font-weight: bold">0</p>
+        </div>
+        <br />
+        <hr />
+        <div style="display: ruby">
+          <p>목표 달성까지 필요한 시간</p>
+          <p id="requied_time" style="font-weight: bold">0</p>
+        </div>
+      </div>
     </div>
     <script>
       const defaultExp = 13000000; // 13,000,000
+      const defaultEd = 210000; // 210,000
+      function formatDuration(totalSeconds) {
+        const days = Math.floor(totalSeconds / (24 * 3600));
+        totalSeconds %= 24 * 3600;
+        const hours = Math.floor(totalSeconds / 3600);
+        totalSeconds %= 3600;
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        let result = "";
+        if (days > 0) {
+          result += days + " 일 ";
+        }
+        if (hours > 0) {
+          result += hours + " 시간 ";
+        }
+        if (minutes > 0) {
+          result += minutes + " 분 ";
+        }
 
-      // const getRequiredExp = (level) => {
-      //   return 72500 * Math.exp(0.808 * Math.pow(level, 0.45));
-      // };
-      // console.log(getRequiredExp(998));
+        return result.trim();
+      }
 
-      // const getExp = (startLevel, targetLevel) => {
-      //   let exp = 0;
-      //   for (let i = startLevel; i < targetLevel; i++) {
-      //     exp += getRequiredExp(i);
-      //   }
-      //   return exp;
-      // };
+      const getExp = (startLevel, targetLevel) => {
+        return (
+          parseInt(required_exp_table[targetLevel - 1]) -
+          parseInt(required_exp_table[startLevel - 1])
+        );
+      };
 
-      console.log(required_exp_table[998]);
+      // console.log(required_exp_table[998]);
 
       document
         .getElementById("expCalculator")
@@ -268,9 +371,14 @@
           const targetLevel = parseInt(
             document.getElementById("targetLevel").value
           );
-          let result = "";
+          const clearTime = parseInt(
+            document.getElementById("clearTime").value
+          );
           const stat_exp_rate = parseInt(
             document.getElementById("exp_rate").value
+          );
+          const stat_ed_rate = parseInt(
+            document.getElementById("ed_rate").value
           );
           const guild_skill = parseInt(
             document.querySelector('input[name="guild_skill"]:checked').value
@@ -282,6 +390,7 @@
             document.querySelector('input[name="pc"]:checked').value
           );
 
+          let result = 0;
           const exp_medal =
             parseInt(document.getElementById("exp_medal").value) || 0;
 
@@ -311,9 +420,9 @@
           );
 
           if (startLevel >= targetLevel) {
-            result = "시작 레벨은 목표 레벨보다 낮아야 합니다.";
+            alert("시작 레벨이 목표 레벨보다 높습니다.");
+            return;
           } else {
-            console.log(getExp(startLevel, targetLevel));
             result =
               ((defaultExp *
                 (stat_exp_rate + guild_skill + guild_banner + 100)) /
@@ -328,8 +437,39 @@
                 130) /
                 100);
           }
+          const requiredExp = getExp(startLevel, targetLevel);
 
-          document.getElementById("result").innerText = result;
+          document.getElementById("requied_exp").innerText =
+            requiredExp.toLocaleString();
+          document.getElementById("exp_per_game").innerText =
+            result.toLocaleString();
+          document.getElementById("ed_per_game").innerText = (
+            (defaultEd *
+              ((100 + stat_ed_rate + guild_skill - 5) *
+                ((pc + drop_burning + 110) / 100))) /
+            100
+          ).toLocaleString();
+          document.getElementById("ed_per_time").innerText = (
+            ((defaultEd *
+              ((100 + stat_ed_rate + guild_skill - 5) *
+                ((pc + drop_burning + 110) / 100))) /
+              100) *
+            Math.floor(1800 / clearTime)
+          ).toLocaleString();
+          document.getElementById("requied_game_count").innerText = Math.floor(
+            requiredExp / result
+          );
+          document.getElementById("gameCount").innerText = Math.floor(
+            1800 / clearTime
+          );
+          const requied_game_time = Math.floor(
+            requiredExp / (result * Math.floor(1800 / clearTime))
+          );
+          const requied_time = requied_game_time * 30 * 60;
+          document.getElementById("requied_game_time").innerText =
+            requied_game_time;
+          document.getElementById("requied_time").innerText =
+            formatDuration(requied_time);
         });
     </script>
   </body>
