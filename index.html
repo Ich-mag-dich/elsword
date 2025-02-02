@@ -11,8 +11,22 @@
         margin: 20px;
       }
       .container {
-        max-width: 600px;
+        /* max-width: 600px; */
         margin: 0 auto;
+      }
+
+      @media (min-width: 1200px) {
+        .extContainer {
+          display: flex;
+        }
+        .container2 {
+          width: 500px;
+        }
+      }
+      @media (max-width: 1200px) {
+        .container2 {
+          margin-top: 20px;
+        }
       }
       label,
       input {
@@ -44,11 +58,11 @@
     </style>
   </head>
   <body>
-    <div style="display: flex">
+    <div class="extContainer">
       <div
         class="container"
         style="
-          width: 600px;
+          /* width: 600px; */
           border: solid;
           border-width: 3px;
           border-color: black;
@@ -276,9 +290,9 @@
       </div>
 
       <div
-        class="container"
+        class="container container2"
         style="
-          width: 600px;
+          /* width: 400px; */
           border: solid;
           border-width: 3px;
           border-color: black;
@@ -496,8 +510,9 @@
               100) *
             Math.floor(requiredExp / result)
           ).toLocaleString();
-
-          window.scrollTo({ top: 0, behavior: "smooth" });
+          if (window.innerWidth > 1200) {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }
         });
     </script>
   </body>
