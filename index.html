@@ -332,6 +332,12 @@
           <p>목표 달성까지 필요한 시간</p>
           <p id="requied_time" style="font-weight: bold">0</p>
         </div>
+        <br />
+        <hr />
+        <div style="display: ruby">
+          <p>목표 달성시 획득하는 ED</p>
+          <p id="total_ed" style="font-weight: bold">0</p>
+        </div>
       </div>
     </div>
     <script>
@@ -475,6 +481,13 @@
             requied_game_time;
           document.getElementById("requied_time").innerText =
             formatDuration(requied_time);
+          document.getElementById("total_ed").innerText = (
+            ((defaultEd *
+              ((100 + stat_ed_rate + guild_skill - 5) *
+                ((pc + drop_burning + 110) / 100))) /
+              100) *
+            Math.floor(requiredExp / result)
+          ).toLocaleString();
         });
     </script>
   </body>
