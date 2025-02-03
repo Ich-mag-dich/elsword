@@ -124,6 +124,25 @@
           <br />
           <p>초 단위로 입력 ex) 1분 7초 -> 67</p>
           <hr />
+          <br />
+          <label for="delayTime">판당 지연시간: </label>
+          <input
+            type="number"
+            id="delayTime"
+            name="delayTime"
+            min="0"
+            max="999"
+            style="display: inline-block"
+            class="input-number"
+            placeholder="8"
+          />
+          <br />
+          <p>
+            재도전시 딜레이 되는 시간 등등 필요시 입력
+            <br />
+            기본은 8초
+          </p>
+          <hr />
           <div style="display: flex">
             <label for="targetLevel">
               <p>
@@ -226,7 +245,7 @@
             type="number"
             id="exp_medal"
             name="exp_medal"
-            min="1"
+            min="0"
             style="display: inline-block"
             class="input-number"
             placeholder="0"
@@ -239,7 +258,7 @@
             type="number"
             id="exp_house"
             name="exp_house"
-            min="1"
+            min="0"
             style="display: inline-block"
             class="input-number"
             placeholder="0"
@@ -252,7 +271,7 @@
             type="number"
             id="exp_burning"
             name="exp_burning"
-            min="1"
+            min="0"
             style="display: inline-block"
             class="input-number"
             placeholder="0"
@@ -266,7 +285,7 @@
             type="number"
             id="drop_burning"
             name="drop_burning"
-            min="1"
+            min="0"
             style="display: inline-block"
             class="input-number"
             placeholder="0"
@@ -274,7 +293,7 @@
           <p>(2배탐 -> 100, 3배탐 -> 200)</p>
           <br />
           <hr />
-          <label for="els_pass">패스 마크: </label>
+          <!-- <label for="els_pass">패스 마크: </label>
 
           <input
             type="number"
@@ -287,7 +306,7 @@
           /><br />
           <p>(엔패스 50, 엘리오스 패스 10)</p>
           <br />
-          <hr />
+          <hr /> -->
           <button type="submit">계산하기</button>
         </form>
       </div>
@@ -403,6 +422,8 @@
           const clearTime = parseInt(
             document.getElementById("clearTime").value
           );
+          const delayTime =
+            parseInt(document.getElementById("delayTime").value) || 5;
           const stat_exp_rate = parseInt(
             document.getElementById("exp_rate").value
           );
@@ -429,8 +450,6 @@
             parseInt(document.getElementById("exp_burning").value) || 0;
           const drop_burning =
             parseInt(document.getElementById("drop_burning").value) || 0;
-          const els_pass =
-            parseInt(document.getElementById("els_pass").value) || 0;
           const guild_trainig = parseInt(
             document.querySelector('input[name="guild_trainig"]:checked').value
           );
@@ -444,7 +463,6 @@
             exp_house,
             exp_burning,
             drop_burning,
-            els_pass,
             guild_trainig
           );
 
@@ -460,7 +478,6 @@
                 exp_medal +
                 exp_house +
                 exp_burning +
-                els_pass +
                 guild_trainig +
                 130) /
                 100);
@@ -482,16 +499,16 @@
               ((100 + stat_ed_rate + guild_skill - 5) *
                 ((pc + drop_burning + 100) / 100))) /
               100) *
-            Math.floor(1800 / clearTime)
+            Math.floor(1800 / (clearTime + delayTime))
           ).toLocaleString();
           document.getElementById("requied_game_count").innerText = Math.floor(
             requiredExp / result
           );
           document.getElementById("gameCount").innerText = Math.floor(
-            1800 / clearTime
+            1800 / (clearTime + delayTime)
           );
           const requied_game_time = Math.floor(
-            requiredExp / (result * Math.floor(1800 / clearTime))
+            requiredExp / (result * Math.floor(1800 / (clearTime + delayTime)))
           );
           const requied_time = requied_game_time * 30 * 60;
           document.getElementById("requied_game_time").innerText =
